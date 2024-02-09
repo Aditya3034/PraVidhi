@@ -1,7 +1,6 @@
 import bcryptjs from "bcryptjs";
-import User from "../models/user.models.js";
+import Farmer from "../models/farmer.models.js";
 import { errorHandler } from "../utils/error.js";
-import Listing from "../models/listing.model.js";
 
 export const test = (req, res) => {
   res.json({
@@ -17,7 +16,7 @@ export const updateUser = async (req, res, next) => {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await Farmer.findByIdAndUpdate(
       req.params.id,
       {
         $set: {
@@ -43,7 +42,7 @@ export const deleteUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)
     return next(errorHandler(401, "You can only delete your own account!"));
   try {
-    await User.findByIdAndDelete(req.params.id);
+    await Farmer.findByIdAndDelete(req.params.id);
     res.clearCookie("access_token");
     res.status(200).json("User has been deleted!");
   } catch (error) {
@@ -52,21 +51,21 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getUserListin = async (req, res, next) => {
-  if (req.user.id === req.params.id) {
-    try {
-      const listings = await Listing.find({ userRef: req.params.id });
-      res.status(200).json(listings);
-    } catch (error) {
-      next(error);
-    }
-  } else {
-    return next(errorHandler(401, "You can only view your own listings"));
-  }
+  // if (req.user.id === req.params.id) {
+  //   try {
+  //     const listings = await Listing.find({ userRef: req.params.id });
+  //     res.status(200).json(listings);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // } else {
+  //   return next(errorHandler(401, "You can only view your own listings"));
+  // }
 };
 
 export const getUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await Farmer.findById(req.params.id);
 
     if (!user) return next(errorHandler(404, "User Not founde"));
 
@@ -76,4 +75,24 @@ export const getUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+
+export const updateCropInfo = async (req, res, next) => {
+
+  try {
+    const { cropInfo } = req.body;
+
+    const updatedFarmer = await Farmer.findByIdAndUpdate(
+      req.params.id,
+      { $set: { cropInfo: new Map(Object.entries(cropInfo)) } },
+      { new: true } // Return the updated document
+    );
+
+    res.status(200).json(rest);
+
+  } catch (error) {
+    console.log(error);
+  }
+
 };

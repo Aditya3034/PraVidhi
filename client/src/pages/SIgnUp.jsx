@@ -74,11 +74,19 @@ const SignUp = () => {
       
       <form onSubmit={handelSubmit} className=' flex flex-col gap-4'>
       
-        <input type="text" placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChange}/>
+        <input type="text" placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChange} required/>
 
-        <input type="email" placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange}/>
+        <input type="email" placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange} required/>
 
-        <input type="password" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>
+        <input type="password" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange} required/>
+
+        <input type="text" placeholder='address' className='border p-3 rounded-lg' id='address' onChange={handleChange} required/>
+        
+        <input type="text" placeholder='city' className='border p-3 rounded-lg' id='city' onChange={handleChange} required/>
+
+        <input type="number" placeholder='contact' className='border p-3 rounded-lg' id='contact'  onChange={handleChange} required/>
+
+        <input type="state" placeholder='state' className='border p-3 rounded-lg' id='state' onChange={handleChange} required/>
 
         <button disabled={loding} className=' bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loding? "Loding..." : "Sign up"}</button>
       

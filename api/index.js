@@ -4,11 +4,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 
-import userRouter from './routes/user.route.js';
+import farmerRouter from './routes/farmer.route.js';
 
 import authRouter from './routes/auth.route.js';
 
-import listingRouter from './routes/listing.route.js';
+// import listingRouter from './routes/listing.route.js';
+
+import warehouseRouter from './routes/warehouse.route.js';
 
 import cookieParser from 'cookie-parser';
 
@@ -31,16 +33,16 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.listen(3001, ()=>{
+app.listen(3000, ()=>{
     console.log("SERVER STARTED ON PORT 3000");
 });
 
 
-app.use('/api/user', userRouter);
+app.use('/api/farmer', farmerRouter);
 
 app.use('/api/auth', authRouter);
 
-app.use('/api/listing', listingRouter);
+app.use('/api/warehouse', warehouseRouter);
 
 
 app.use(express.static(path.join(__dirname, '/client/dist')));
