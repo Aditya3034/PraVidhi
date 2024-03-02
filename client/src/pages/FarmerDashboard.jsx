@@ -5,42 +5,34 @@ const FarmerDashboard = () => {
   const [fomrData, setFormData] = useState({});
   const [cropInputCount, setCropInputCount] = useState(1);
   const [crops, setCrops] = useState({});
+  console.log(fomrData);
 
   const addMoreCrops = () => {
     setCropInputCount(cropInputCount + 1);
   };
 
-  // const handleAddCrop = (cropName, cropQuantity) => {
-  //   setCrops((prevCrops) => ({ ...prevCrops, [cropName]: cropQuantity }));
-  //   console.log(crops);
-  // };
+  
 
   const handleCropChange = (index, isName, value) => {
     setCrops((prevCrops) => {
       const updatedCrops = { ...prevCrops };
-      const key = updatedCrops[`crop${index}`] ?? { name: "", quantity: 0 };
+      const crop = updatedCrops[`crop${index}`] ?? {};
       if (isName) {
-        key.name = value;
+        crop.cropName = value;
       } else {
-        key.quantity = Number(value);
+        crop.cropQty = Number(value);
       }
-      updatedCrops[`crop${index}`] = key;
+      updatedCrops[`crop${index}`] = crop;
       return updatedCrops;
     });
-    // console.log(crops);
   };
 
   useEffect(() => {
-    const transformedCrops = Object.values(crops).reduce((acc, crop) => {
-      if (crop.name) acc[crop.name] = crop.quantity;
-      return acc;
-    }, {});
-
+    // Directly set the crops object in the form data, as it already has the desired structure.
     setFormData((prevFormData) => ({
       ...prevFormData,
-      crops: transformedCrops,
+      crops: crops,
     }));
-    console.log(fomrData);
   }, [crops]);
 
   const handleChange = (e) => {
@@ -51,7 +43,7 @@ const FarmerDashboard = () => {
   };
 
   const { currentUser, loading, error } = useSelector((state) => state.user);
-  console.log(currentUser.username);
+  console.log(currentUser._id);
 
 
 
@@ -59,18 +51,21 @@ const FarmerDashboard = () => {
     console.log("INSUBMIT");
     e.preventDefault();
     
+    const cropsArray = Object.values(crops);
+
     try {
       const res = await fetch(`/api/farmer/${currentUser._id}/cropinfo`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(fomrData)
+        body: JSON.stringify({ cropInfo: cropsArray })
       })
 
       const data = await res.json();
+      console.log(data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     } 
 
   };

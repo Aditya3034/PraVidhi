@@ -81,18 +81,22 @@ export const getUser = async (req, res, next) => {
 export const updateCropInfo = async (req, res, next) => {
 
   try {
+    const userId = req.params.id;
+    // console.log(userId);
     const { cropInfo } = req.body;
+    // console.log(cropInfo);
 
     const updatedFarmer = await Farmer.findByIdAndUpdate(
       req.params.id,
-      { $set: { cropInfo: new Map(Object.entries(cropInfo)) } },
-      { new: true } // Return the updated document
+      { $set: { cropInfo } },
+      { new: true }
     );
 
-    res.status(200).json(rest);
+    res.status(200).json(updatedFarmer);
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 
 };

@@ -35,10 +35,22 @@ const farmerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cropInfo: {
-    type: Map,
-    of: Number
-  },  
+  // cropInfo: {
+  //   type: Map,
+  //   of: Number
+  // },
+  cropInfo:[
+    {
+      cropName: {
+        type: String,
+        required: true
+      },
+      cropQty: {
+        type: Number,
+        required: true
+      }
+    }
+  ],  
 },
 { timestamps: true }
 );

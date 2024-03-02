@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,4 +15,39 @@ body{
     src: url("./assets/fonts/Higuen Serif.otf") format("opentype");
     font-family: Norwester;
     src: url("./assets/fonts/norwesterregular-j5r9-webfont.woff") format("opentype");
+    font-family: Grifter;
+    src: url("./assets/fonts/grifterbold.otf") format('opentype');
+  }
+
+
+  @layer utilities {
+
+    /* .scrollbar-thin  {
+        scrollbar-color: #6969dd #e0e0e0;
+  scrollbar-width: thin;
+      } */
+
+      .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .scrollbar-thin::-webkit-scrollbar-track {
+        background-color: #e4e4e4;
+        border-radius: 100px;
+      }
+      
+      .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: #ffcb05;
+        border-radius: 100px;
+      }
+      
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+     /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+    }
   }

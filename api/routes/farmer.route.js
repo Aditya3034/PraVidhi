@@ -11,7 +11,7 @@ router.post('/update/:id', verifyToken, updateUser);
 router.delete('/delete/:id', verifyToken, deleteUser)
 router.get('/listings/:id', verifyToken, getUserListin)
 router.get('/:id', verifyToken, getUser)
-router.get('/:id/cropinfo', verifyToken, updateCropInfo )
+router.put('/:id/cropinfo', verifyToken, updateCropInfo )
 
 
 export default router;
