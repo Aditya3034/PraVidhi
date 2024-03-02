@@ -37,7 +37,7 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate('/farmer-dashboard');
+      navigate('/farmer-homepage');
     } catch (error) {
       dispatch(signInFailure(error.message));
     }

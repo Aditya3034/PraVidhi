@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const warehouseSchema = new mongoose.Schema({
+    usertype:{
+        type: String,
+        required: true,
+        default: "warehouseOwner"
+    },
     name: {
         type: String,
         required: true

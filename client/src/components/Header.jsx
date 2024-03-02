@@ -6,48 +6,36 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
+import Logo from  "../assets/logo.png"
+
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
+
+  const userType = currentUser ? currentUser.usertype : null;
+
+  // console.log(currentUser ? currentUser.usertype : 'No current user');
 
   const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) =>{
-
-    e.preventDefault();
-
-    const urlParams = new URLSearchParams(window.location.search);
-
-    urlParams.set("searchTerm", searchTerm);
-
-    const seaechQuery = urlParams.toString();
-
-    navigate(`/search/${seaechQuery}`);
-
-  }
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
+  
+  
 
   return (
-    <header className=" font-Grifter  ">
+    <header className=" fixed w-full font-Grifter bg-white shadow-sm">
       <div className=" flex justify-between items-center max-w-7xl mx-auto h-12 sm:h-24 px-4">
-        <Link to="/">
+        <Link to={userType === "farmer" ? "/farmer-homepage" : userType === "warehouseOwner" ? "/warehouse-homepage" : userType === "retailor" ? "/retailor-homepage" : "/"}>
           <h1 className=" font-bold text-sm sm:text-xl flex flex-wrap ">
-            <span className="">Pravidhi</span>
+            <img src={Logo} alt="logo" className=" h-10" />
             {/* <span className=" ">Estate</span> */}
           </h1>
         </Link>
+        
 
         
 
-        <ul className=" flex gap-4">
+        <ul className=" flex gap-4 items-center">
           <Link to="/">
             <li className=" hidden sm:inline  hover:underline ">
               Home

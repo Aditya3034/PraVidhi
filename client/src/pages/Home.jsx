@@ -142,7 +142,8 @@ const Home = () => {
   };
 
   return (
-    <div className=" font-Grifter  mt-20   max-w-7xl  mx-auto items-center">
+    <div className=" bg-white">
+      <div className=" font-Grifter  pt-48   max-w-7xl  mx-auto items-center  ">
       {/* top */}
       <div className="flex h-[100dvh] flex-col items-center px-4 sm:h-[60vh] sm:gap-24 gap-12">
         <h1 className="font-bold text-3xl lg:text-[100px]">
@@ -167,7 +168,7 @@ const Home = () => {
 
         <div className=" grid grid-cols-4 gap-6 my-24">
           <Link to="farmer-dashboard">
-            <div className=" bg-[#c0c0c0] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4 ">
+            <div className=" bg-[#eeeeee] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4 ">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +186,7 @@ const Home = () => {
               <span className=" w-2/3 text-center">Personalized Dashboard</span>
             </div>
           </Link>
-          <div className=" bg-[#c0c0c0] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4">
+          <div className=" bg-[#eeeeee] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -202,7 +203,7 @@ const Home = () => {
             </div>
             <span className=" w-2/3 text-center">Crop Recommendation</span>
           </div>
-          <div className=" bg-[#c0c0c0] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4">
+          <div className=" bg-[#eeeeee] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +223,7 @@ const Home = () => {
             <span className=" w-2/3 text-center">Track & Manage Inventory</span>
           </div>
 
-          <div className=" bg-[#c0c0c0] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4">
+          <div className=" bg-[#eeeeee] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -325,6 +326,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

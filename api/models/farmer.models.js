@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const farmerSchema = new mongoose.Schema({
+  usertype:{
+    type: 'string',
+    required: true,
+    default: 'farmer',
+  },
   username: {
     type: String,
     required: true,

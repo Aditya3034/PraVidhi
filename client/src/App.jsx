@@ -12,7 +12,10 @@ import PrivateRoute from "./components/PrivateRoute";
 import WareHouseSignIn from "./pages/WareHouseSignIn";
 import Search from "./pages/Search";
 import WareHouseSignUp from "./pages/WareHouseSignUp";
-import FarmerDashboard from "./pages/FarmerDashboard"
+import FarmerHomepage from "./pages/FarmerHomepage"
+import CropPridiction from "./pages/CropPridiction";
+import FarmerInventory from "./pages/FarmerInventory";
+import SellCrops from "./pages/SellCrops";
 
 
 const App = () => {
@@ -28,13 +31,14 @@ const App = () => {
         
         <Route path="/about" element={<About />} />
         <Route path='/search' element={<Search />} />
-        {/* <Route path="/listing/:listingId" element={<Listing/>}/> */}
+       
 
         <Route element={<PrivateRoute />}>
-          <Route path="/farmer-dashboard" element={<FarmerDashboard/>} />
+          <Route path="/farmer-homepage" element={<FarmerHomepage/>} />
           <Route path="/profile" element={<Profile />} />
-          {/* <Route path="/create-listing" element={<CreateListing />} />
-          <Route path="/update-listing/:listingId" element={<UpdateListing/>} /> */}
+          <Route path="/crop-predictions" element={<CropPridiction />} />
+          <Route path="/farmer-inventory" element={ <FarmerInventory/>}/> 
+          <Route path="/sell-crops" element={ <SellCrops />} />
         </Route>
       </Routes>
     </BrowserRouter>
