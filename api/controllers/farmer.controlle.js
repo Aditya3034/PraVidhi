@@ -79,24 +79,35 @@ export const getUser = async (req, res, next) => {
 
 
 export const updateCropInfo = async (req, res, next) => {
-
   try {
     const userId = req.params.id;
-    // console.log(userId);
-    const { cropInfo } = req.body;
-    // console.log(cropInfo);
+    const newCropInfo = req.body.cropInfo; // This is the array of new crops info
 
-    const updatedFarmer = await Farmer.findByIdAndUpdate(
-      req.params.id,
-      { $set: { cropInfo } },
-      { new: true }
-    );
+    const farmer = await Farmer.findById(userId);
 
-    res.status(200).json(updatedFarmer);
+    if (!farmer) {
+      return res.status(404).json({ message: "Farmer not found" });
+    }
+
+    // Assuming newCropInfo is an array of { cropName, cropQty }
+    newCropInfo.forEach(newCrop => {
+      const existingCropIndex = farmer.cropInfo.findIndex(c => c.cropName === newCrop.cropName);
+      
+      if (existingCropIndex > -1) {
+        // Update quantity if crop already exists
+        farmer.cropInfo[existingCropIndex].cropQty += newCrop.cropQty;
+      } else {
+        // Push new crop info if it doesn't exist
+        farmer.cropInfo.push(newCrop);
+      }
+    });
+
+    await farmer.save(); // Save the updated farmer document
+
+    res.status(200).json(farmer);
 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
-
 };
