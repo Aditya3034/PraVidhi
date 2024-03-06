@@ -16,6 +16,7 @@ import FarmerHomepage from "./pages/FarmerHomepage"
 import CropPridiction from "./pages/CropPridiction";
 import FarmerInventory from "./pages/FarmerInventory";
 import SellCrops from "./pages/SellCrops";
+import FarmerDashboard from "./pages/FarmerDashboard";
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/crop-predictions" element={<CropPridiction />} />
           <Route path="/farmer-inventory" element={ <FarmerInventory/>}/> 
+          <Route path="/farmer-dashboard/:id" element={ <FarmerDashboard/>} />
           <Route path="/sell-crops" element={ <SellCrops />} />
         </Route>
       </Routes>

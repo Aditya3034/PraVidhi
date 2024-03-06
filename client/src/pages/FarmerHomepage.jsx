@@ -14,7 +14,7 @@ const FarmerHomepage = () => {
         </h1>
 
         <div className=" grid grid-cols-4 gap-6 my-24">
-          <Link to="/farmer-dashboard">
+          <Link to={`/farmer-dashboard/${currentUser._id}`}>
             <div className=" bg-[#eeeeee] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4 ">
               <div>
                 <img

@@ -111,3 +111,25 @@ export const updateCropInfo = async (req, res, next) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+export const getCropInfo = async (req, res, next) => {
+  try {
+
+    const userId = req.params.id;
+    const farmer = await Farmer.findById(userId);
+
+    if (!farmer) {
+      return res.status(404).json({ message: "Farmer not found" });
+    }
+    
+    const cropInfo = farmer.cropInfo;
+
+    return res.status(200).json(cropInfo);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Data can't be fetched" });
+
+  }
+};
