@@ -178,9 +178,9 @@ const WarehouseHomePage = () => {
 
   return (
     <>
-      <div className=" bg-white min-h-dvh pt-12 sm:pt-24">
+      <div className=" bg-white font-Grifter  pt-12 min-h-screen sm:pt-24">
 
-        <div className=" h-48 flex flex-col items-center justify-center bg-gradient-to-r from-[#0F2027] via-[#23414B] to-[#2C5364]">
+        <div className="  h-56 flex flex-col items-center justify-center bg-gradient-to-r from-[#0F2027] via-[#23414B] to-[#2C5364]">
         <h1 className=" text-white text-[50px]">Visualizing warehouse restocking</h1>
         <h2 className=" text-[#9A9A9A] text-[20px]">Optimize your storage strategy with our analysis </h2>
         </div>
@@ -196,6 +196,13 @@ const WarehouseHomePage = () => {
               ? "Edit Warehouse Details"
               : "Add Warehouse Details"}
           </button>
+          <Link to="/warehouse-restock-page" className="inline-block"> 
+      <button
+        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition duration-300"
+      >
+        Manage Restocking
+      </button>
+    </Link>
           </div>
           <div className=" flex justify-center items-center">
 
