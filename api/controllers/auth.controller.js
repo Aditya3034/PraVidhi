@@ -7,11 +7,11 @@ import Warehouse from "../models/warehouse.model.js";
 // FRMER AUTH ROUTES ---------------------------------------------------------------------
 
 export const signup = async (req, res, next) => {
-  const { username, email, password, address, city, contact, state } = req.body;
-
+  const { userType , username, email, password, address, city, contact, state } = req.body;
+console.log(userType);
   const hasedPassword = bcryptjs.hashSync(password, 10);
 
-  const newUser = new Farmer({ username, email, password: hasedPassword, address, city, contact, state });
+  const newUser = new Farmer({ userType, username, email, password: hasedPassword, address, city, contact, state });
 
   try {
     await newUser.save();

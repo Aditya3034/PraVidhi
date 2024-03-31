@@ -1,7 +1,31 @@
 import mongoose from 'mongoose';
 
+
+const cropDetailSchema = new mongoose.Schema({
+    cropName: {
+        type: String,
+        required: true
+    },
+    cropQuantity: {
+        type: Number,
+        required: true
+    }
+});
+
+const warehouseDetailSchema = new mongoose.Schema({
+    warehouseTotalStorage: {
+        type: Number,
+        required: true
+    },
+    warehouseName: {
+        type: String,
+        required: true
+    },
+    cropDetails: [cropDetailSchema]
+});
+
 const warehouseSchema = new mongoose.Schema({
-    usertype:{
+    usertype: {
         type: String,
         required: true,
         default: "warehouseOwner"
@@ -35,26 +59,7 @@ const warehouseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    warehouseDetails: {
-        warehouseTotalStorage: {
-            type: Number,
-            // required: true
-        },
-        warehouseName: {
-            type: String,
-            // required: true
-        },
-        cropDetails: [{
-            cropName: {
-                type: String,
-                // required: true
-            },
-            cropQuantity: {
-                type: Number,
-                // required: true
-            }
-        }]
-    }
+    warehouseDetails: warehouseDetailSchema
 });
 
 

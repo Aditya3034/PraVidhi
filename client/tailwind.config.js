@@ -16,6 +16,7 @@ export default {
       // Rubik:['sans-serif'],
       // Tilt_Prism:['cursive'],
       // Outfit:['sans-serif'],
+      Raleway : ["Raleway", "sans-serif"],
       Grifter : "Grifter",
       Poppins:["Poppins", 'sans-serif'],
     },

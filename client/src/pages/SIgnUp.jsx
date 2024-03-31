@@ -19,6 +19,7 @@ const SignUp = () => {
     setFormData({
       ...fomrData, 
       [e.target.id]: e.target.value,
+      userType : "farmer"
     })
   };
 
@@ -68,11 +69,11 @@ const SignUp = () => {
 
 
   return (
-    <div  className=' p-3 max-w-lg mx-auto'>
+    <div  className=' p-3 max-w-5xl mx-auto'>
       
       <h1 className=' text-3xl text-center font-semibold my-7'>Sign Up</h1>
       
-      <form onSubmit={handelSubmit} className=' flex flex-col gap-4'>
+      <form onSubmit={handelSubmit} className=' grid grid-cols-2 gap-4'>
       
         <input type="text" placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChange} required/>
 
@@ -87,14 +88,14 @@ const SignUp = () => {
         <input type="number" placeholder='contact' className='border p-3 rounded-lg' id='contact'  onChange={handleChange} required/>
 
         <input type="state" placeholder='state' className='border p-3 rounded-lg' id='state' onChange={handleChange} required/>
-
+<div></div>
         <button disabled={loding} className=' bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loding? "Loding..." : "Sign up"}</button>
       
         <OAuth/>
 
       </form>
 
-      <div className=' flex gap-2 mt-5'>
+      <div className=' flex gap-2 mt-5 justify-center'>
       
         <p>Have an Account?</p>
       

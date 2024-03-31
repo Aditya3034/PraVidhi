@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import { FaSearch } from "react-icons/fa";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
 import Logo from  "../assets/logo.png"
+import SigninModal from "./SigninModal";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -19,13 +20,25 @@ const Header = () => {
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const targetRoutes = ["/about", "/retailor-signUp","/warehose-signUp"];
+    if (targetRoutes.includes(location.pathname)) {
+      toggleModal();
+    }
+  }, [location]); 
   
-  
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
-    <header className=" fixed w-full font-Grifter bg-white shadow-sm">
+    <header className=" fixed z-50 w-full font-Raleway font-black bg-white shadow-sm">
       <div className=" flex justify-between items-center max-w-7xl mx-auto h-12 sm:h-24 px-4">
-        <Link to={userType === "farmer" ? "/farmer-homepage" : userType === "warehouseOwner" ? "/warehouse-homepage" : userType === "retailor" ? "/retailor-homepage" : "/"}>
+        <Link to={userType === "farmer" ? "/farmer-homepage" : userType === "warehouseOwner" ? `/warehouse-homepage/${currentUser._id}` : userType === "retailor" ? "/retailor-homepage" : "/"}>
           <h1 className=" font-bold text-sm sm:text-xl flex flex-wrap ">
             <img src={Logo} alt="logo" className=" h-10" />
             {/* <span className=" ">Estate</span> */}
@@ -56,12 +69,14 @@ const Header = () => {
                 alt="profile"
               />
             ) : (
-              <li className="  hover:underline ">
+              <li onClick={toggleModal} className="  hover:underline ">
                 Sign In
               </li>
             )}
           </Link>
+
         </ul>
+        <SigninModal isOpen={isModalOpen} onClose={toggleModal} />
       </div>
     </header>
   );

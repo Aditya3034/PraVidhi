@@ -21,7 +21,7 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const fileRef = useRef(null);
@@ -48,6 +48,9 @@ const Profile = () => {
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   const [userListings, setUserListings] = useState([]);
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (file) {
@@ -129,15 +132,21 @@ const Profile = () => {
     try {
       const res = await fetch("api/auth/signout");
       const data = await res.json();
+      console.log("loop");
       if (data.success === false) {
+        console.log("loop");
+
         dispatch(signOutUserFailure(data.message));
-        return;
+      } else {
+        console.log("loop");
+        dispatch(signOutUserSuccess(data));
+        navigate("/");
       }
-      dispatch(deleteUserSuccess(data));
     } catch (error) {
-      dispatch(deleteUserFailure(error.message));
+      dispatch(signOutUserFailure(error.message));
     }
   };
+  
 
   const handleShowListings = async () => {
     try {

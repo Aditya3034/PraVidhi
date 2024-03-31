@@ -7,7 +7,7 @@ const FarmerHomepage = () => {
 
   return (
     <div className=" bg-white">
-      <div className=" h-[100dvh] font-Grifter pt-48 max-w-7xl  mx-auto items-center  ">
+      <div className=" h-[100dvh] font-Raleway font-black pt-48 max-w-7xl  mx-auto items-center  ">
       <div className="  flex-col flex items-center justify-center px-4">
         <h1 className="text-xs sm:text-sm lg:text-[30px] font-normal">
           Sow, Grow, and Flourish: Unleashing the Power of Intelligent Farming

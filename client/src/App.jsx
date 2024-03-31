@@ -17,6 +17,7 @@ import CropPridiction from "./pages/CropPridiction";
 import FarmerInventory from "./pages/FarmerInventory";
 import SellCrops from "./pages/SellCrops";
 import FarmerDashboard from "./pages/FarmerDashboard";
+import WarehouseHomePage from "./pages/WarehouseHomePage";
 
 
 const App = () => {
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/farmer-inventory" element={ <FarmerInventory/>}/> 
           <Route path="/farmer-dashboard/:id" element={ <FarmerDashboard/>} />
           <Route path="/sell-crops" element={ <SellCrops />} />
+          <Route path="/warehouse-homepage/:id" element={ <WarehouseHomePage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

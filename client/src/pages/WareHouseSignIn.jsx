@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { signInFailure, signInSuccess } from '../redux/user/userSlice';
 
 const WareHouseSignIn = () => {
 
     const [formData, setFormData] = useState({});
     const { loading, error } = useSelector((state) => state.user);
     const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
     const handleChange = (e) => {
         setFormData({
@@ -28,12 +31,12 @@ const WareHouseSignIn = () => {
           });
           const data = await res.json();
           console.log(data);
-        //   if (data.success === false) {
-        //     dispatch(signInFailure(data.message));
-        //     return;
-        //   }
-        //   dispatch(signInSuccess(data));
-        //   navigate('/');
+          if (data.success === false) {
+            dispatch(signInFailure(data.message));
+            return;
+          }
+          dispatch(signInSuccess(data));
+          navigate(`/warehouse-homepage/${data._id}`);
         } catch (error) {
         //   dispatch(signInFailure(error.message));
         console.log(error.message);

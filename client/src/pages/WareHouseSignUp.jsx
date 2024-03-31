@@ -9,7 +9,9 @@ const WareHouseSignUp = () => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
+      userType : "warehouseOwner"
     });
+    
     console.log(formData);
   };
 
@@ -36,7 +38,7 @@ const WareHouseSignUp = () => {
 
   return (
     <>
-      <div className="p-3 max-w-lg mx-auto">
+      <div className="pt-48 max-w-lg mx-auto">
         <h1 className="text-3xl text-center font-semibold my-7">
           Warehouse Signup
         </h1>
@@ -104,6 +106,18 @@ const WareHouseSignUp = () => {
             Register
           </button>
         </form>
+
+        <div className=' flex gap-2 mt-5 justify-center'>
+      
+      <p>Have an Account?</p>
+    
+      <Link to={"/warehose-signIn"} className=' text-blue-500'>
+        Sign in
+      </Link>
+
+
+    
+    </div>
       </div>
     </>
   );
