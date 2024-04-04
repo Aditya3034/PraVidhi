@@ -1,6 +1,8 @@
 import bcryptjs from "bcryptjs";
 import Farmer from "../models/farmer.models.js";
 import { errorHandler } from "../utils/error.js";
+import CropSaleListing from "../models/cropSaleListingSchema.js";
+
 
 export const test = (req, res) => {
   res.json({
@@ -117,6 +119,7 @@ export const getCropInfo = async (req, res, next) => {
   try {
 
     const userId = req.params.id;
+    console.log(userId);
     const farmer = await Farmer.findById(userId);
 
     if (!farmer) {
@@ -131,5 +134,57 @@ export const getCropInfo = async (req, res, next) => {
     console.log(error);
     res.status(500).json({ message: "Data can't be fetched" });
 
+  }
+};
+
+
+// Method to handle sell request
+export const createSellRequest = async (req, res) => {
+  
+  const farmerId = req.params.id;
+
+  console.log(farmerId);
+
+  // Extract details from request body
+  const { cropName,cropType, quantity, pricePerKg, availableInDays, location, totalPrice} = req.body;
+  console.log(req.body);
+
+  try {
+
+    // Create new CropSaleListing document
+    const newListing = await CropSaleListing.create({
+      farmer: farmerId,
+      cropName,
+      cropType,
+      quantity,
+      pricePerKg,
+      totalPrice,
+      availableInDays,
+      location,
+    });
+
+
+    // console.log(newListing);
+
+    // Update farmer's crop quantity
+    const farmer = await Farmer.findById(farmerId);
+    // console.log(farmer, "FARMER____________________________________");
+    const cropIndex = farmer.cropInfo.findIndex(crop => crop.cropName === cropName);
+// console.log(cropIndex, "CROPDATA____________________________________");
+    if (cropIndex !== -1) {
+      // If crop exists, deduct the quantity
+      farmer.cropInfo[cropIndex].cropQty -= quantity;
+      await farmer.save();
+    } else {
+      // Handle case where crop doesn't exist (this should be managed based on your app logic)
+      return res.status(400).json({ message: "Crop not found." });
+    }
+
+    // Successfully processed sell request
+    res.status(201).json({ message: "Sell request processed successfully", listing: newListing });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Failed to process sell request", error: error.toString() });
   }
 };

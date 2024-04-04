@@ -1,5 +1,5 @@
 import express from "express";
-import { test,updateUser, deleteUser, getUserListin, getUser, updateCropInfo, getCropInfo } from "../controllers/farmer.controlle.js";
+import { test,updateUser, deleteUser, getUserListin, getUser, updateCropInfo, getCropInfo, createSellRequest } from "../controllers/farmer.controlle.js";
 import { verifyToken } from '../utils/verifyUser.js';
 
 
@@ -14,5 +14,6 @@ router.get('/:id', verifyToken, getUser)
 router.put('/:id/cropinfo', verifyToken, updateCropInfo )
 router.get('/getCropInfo/:id', verifyToken, getCropInfo)
 
+router.post('/:id/sell-request', verifyToken, createSellRequest);
 
 export default router;

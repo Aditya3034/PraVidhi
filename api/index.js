@@ -1,3 +1,4 @@
+
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -11,6 +12,10 @@ import authRouter from './routes/auth.route.js';
 // import listingRouter from './routes/listing.route.js';
 
 import warehouseRouter from './routes/warehouse.route.js';
+
+import sellCropRouter from "./routes/sellCrop.route.js"
+
+import transactionRouter from "./routes/transactions.route.js";
 
 import cookieParser from 'cookie-parser';
 
@@ -44,6 +49,9 @@ app.use('/api/auth', authRouter);
 
 app.use('/api/warehouse', warehouseRouter);
 
+app.use('/api/sellCrop', sellCropRouter);
+
+app.use('/api/transaction', transactionRouter);
 
 app.use(express.static(path.join(__dirname, '/client/dist')));
 

@@ -23,6 +23,14 @@ const FarmerDashboard = () => {
   // console.log(currentUser.cropInfo);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [selectedCrop, setSelectedCrop] = useState(null);
+
+  const toggleModal = (cropData) => {
+    setIsModalOpen(!isModalOpen);
+    setSelectedCrop(cropData);
+    console.log(cropData);
+  };
+
   useEffect(() => {
     const fetchFarmerData = async () => {
       try {
@@ -43,10 +51,6 @@ const FarmerDashboard = () => {
     fetchFarmerData();
   }, [currentUser]);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
   return (
     <div className="bg-white">
       {/* <img src="./assets/chole.jpg" alt="" /> */}
@@ -58,12 +62,12 @@ const FarmerDashboard = () => {
           <div className="text-xs sm:text-sm lg:text-[30px] font-normal pt-8 text-[#9A9A9A]">
             <h2>Sell at the most favorable price</h2>
           </div>
-          <div className=" grid grid-cols-4 gap-6 my-24 w-full">
+          <div className=" font-Poppins grid grid-cols-4 gap-6 my-24 w-full">
             {farmerCrops.map((item, index) => (
               <div key={index} className="border rounded-md">
                 {/* Find the image from Imgarray that matches the cropName */}
                 <div className=" relative">
-                  <span className=" absolute uppercase text-white text-5xl top-[35%] left-[22%] ">
+                  <span className=" font-Grifter absolute uppercase text-white text-5xl top-[35%] left-[22%] ">
                     {item.cropName}
                   </span>
                   <img
@@ -81,12 +85,13 @@ const FarmerDashboard = () => {
                 </div>
                 <div className=" flex justify-center py-4">
                   <button
-                    className=" w-[80%] p-1 text-white rounded-md bg-[#3166e1]"
+                    className="w-[80%] p-1 text-white rounded-md bg-[#3166e1]"
                     onClick={() => {
-                      toggleModal();
+                      toggleModal(item);
                     }}
+                    disabled={item.cropQty <= 0} // This will disable the button if cropQty is 0 or less
                   >
-                    Sell
+                    {item.cropQty > 0 ? "Sell" : "Sold Out"}
                   </button>
                 </div>
               </div>
@@ -98,9 +103,7 @@ const FarmerDashboard = () => {
       <FarmerCropSellModal
         isModalOpen={isModalOpen}
         toggleModal={toggleModal}
-        // onTransactionAdded={onTransactionAdded}
-        // accountDetails={accountDetails}
-        // transactionType={transactionType}
+        selectedCrop={selectedCrop ? selectedCrop : ""}
       />
     </div>
   );

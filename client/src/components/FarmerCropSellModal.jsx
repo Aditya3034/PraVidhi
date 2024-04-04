@@ -1,113 +1,164 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
-import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import { IoCloseSharp } from "react-icons/io5";
 
+const FarmerCropSellModal = ({ isModalOpen, toggleModal, selectedCrop }) => {
+  const { currentUser } = useSelector((state) => state.user);
 
-const FarmerCropSellModal = ({isModalOpen,toggleModal,onTransactionAdded,accountDetails,transactionType,}) => {
+  const [sellDetails, setSellDetails] = useState({
+    cropName: "",
+    cropType: "",
+    quantity: "",
+    pricePerKg: "",
+    availableInDays: "",
+    location: "",
+  });
 
-    const handleCloseModal = () => {
-        toggleModal();
-        
-      };
-    
+  useEffect(() => {
+    if (selectedCrop) {
+      setSellDetails({
+        cropName: selectedCrop.cropName || "",
+        cropType: selectedCrop.cropType || "",
+        quantity: selectedCrop.cropQty || "",
+        pricePerKg: selectedCrop.pricePerKg || "",
+        availableInDays: selectedCrop.availableInDays || "",
+        location: selectedCrop.location || "",
+      });
+    }
+  }, [selectedCrop]);
+
+  console.log(sellDetails);
+
+  const handleChange = (e) => {
+    setSellDetails({ ...sellDetails, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const totalPrice = calculateTotalPrice(
+      sellDetails.quantity,
+      sellDetails.pricePerKg
+    );
+
+    try {
+      const res = await fetch(`/api/farmer/${currentUser._id}/sell-request`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Authorization': `Bearer ${token}`, // Uncomment and use the correct token variable
+        },
+        body: JSON.stringify({ ...sellDetails, totalPrice }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create sell request.");
+      }
+
+      const result = await res.json();
+      console.log(result);
+      toggleModal(); // Close the modal after successful submission
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const calculateTotalPrice = (quantity, pricePerKg) => {
+    return quantity * pricePerKg;
+  };
+
+  if (!isModalOpen) return null;
+
   return (
-    <Modal
-      isOpen={isModalOpen}
-      onRequestClose={handleCloseModal}
-      contentLabel="Payment Modal"
-      appElement={document.getElementById("root")}
-      style={{
-        content: {
-          background: "white",
-          borderRadius: "8px",
-          maxWidth: "520px",
-          maxHeight : "520px",
-          margin: "0 auto",
-          padding: "20px",
-        },
-        overlay: {
-          background: "rgba(0, 0, 0, 0.75)",
-        },
-      }}
-    >
-      <div className="relative">
-        <button
-          type="button"
-          className="absolute top-3 right-2.5 text-gray-400"
-          onClick={handleCloseModal}
-        >
-          <AiOutlineClose className="text-2xl" />
-          <span className="sr-only">Close modal</span>
+    <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="relative bg-white p-10 rounded-lg">
+        <button onClick={toggleModal} className="absolute top-2 right-2">
+          <IoCloseSharp className="text-2xl" />
         </button>
-        <h3 className="text-lg font-semibold text-gray-900">
-          Sell in market
-        </h3>
-        {/* <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-          <div>
-            <label
-              htmlFor="amount"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Amount
-            </label>
-            <input
-              type="number"
-              name="amount"
-              id="amount"
-              value={formData.amount}
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="2999"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="type"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Category
-            </label>
-            <span
-              
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            >
-              
-          {modalHeader}
-        
-            </span>
-          </div>
-          <div>
-            <label
-              htmlFor="description"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Description
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              rows="4"
-              value={formData.description}
-              onChange={handleChange}
-              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Write a note here"
-              required
-            />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h2 className="text-lg font-bold">Sell Crop Details</h2>
+          <div className=" grid md:grid-cols-2 grid-cols-1 gap-4">
+            <div className=" w-full flex">
+              <label htmlFor="cropName" className=" w-1/3">Crop Name</label>
+              <input
+                id="cropName"
+                name="cropName"
+                type="text"
+                className=" rounded-md border-2 border w-2/3"
+                value={sellDetails.cropName}
+                onChange={handleChange}
+                disabled // Assuming the crop name is preselected and cannot be changed
+              />
+            </div>
+            <div className=" w-full flex">
+              <label htmlFor="cropType" className=" w-1/3">Crop Type</label>
+              <input
+                id="cropType"
+                name="cropType"
+                type="text"
+                className=" rounded-md border-2 border w-2/3"
+                value={sellDetails.cropType}
+                onChange={handleChange}
+              />
+            </div>
+            <div className=" w-full flex">
+              <label htmlFor="quantity" className=" w-1/3">Quantity Available (KG)</label>
+              <input
+                id="quantity"
+                name="quantity"
+                type="number"
+                className=" rounded-md border-2 border w-2/3"
+
+                value={sellDetails.quantity}
+                onChange={handleChange}
+              />
+            </div>
+            <div className=" w-full flex">
+              <label htmlFor="pricePerKg" className=" w-1/3">Price Per KG</label>
+              <input
+                id="pricePerKg"
+                name="pricePerKg"
+                type="number"
+                className=" rounded-md border-2 border  w-2/3"
+
+                value={sellDetails.pricePerKg}
+                onChange={handleChange}
+              />
+            </div>
+            <div className=" w-full flex">
+              <label htmlFor="availableInDays" className=" w-1/3">Available in (Days)</label>
+              <input
+                id="availableInDays"
+                name="availableInDays"
+                type="number"
+                className=" rounded-md border-2 border  w-2/3"
+
+             value={sellDetails.availableInDays}
+                onChange={handleChange}
+              />
+            </div>
+            <div className=" w-full flex">
+              <label htmlFor="location" className=" w-1/3">Location</label>
+              <input
+                id="location"
+                name="location"
+                type="text"
+                className=" rounded-md border-2 border w-2/3"
+
+                value={sellDetails.location}
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <button
             type="submit"
-            className=" w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            className="bg-blue-500 text-white p-2 rounded-md"
           >
-            
-          Submit
-        
+            Submit Sell Request
           </button>
-        </form> */}
+        </form>
       </div>
-    </Modal>
-  )
-}
+    </div>
+  );
+};
 
-export default FarmerCropSellModal
+export default FarmerCropSellModal;
