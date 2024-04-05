@@ -30,7 +30,7 @@ const WareHouseSignUp = () => {
 
     const data = await res.json();
     console.log(data);
-    // navigate('/sign-in');
+    navigate('/warehose-signIn');
   } catch (error) {
     console.log(error.message);
   }
