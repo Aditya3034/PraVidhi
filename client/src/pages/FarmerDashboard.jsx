@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Chole from "../assets/chole.jpg";
 import Rajma from "../assets/rajma.jpg";
 import FarmerCropSellModal from "../components/FarmerCropSellModal";
+import Table from "../components/Table";
 
 const FarmerDashboard = () => {
   const Imgarray = [
@@ -24,6 +25,8 @@ const FarmerDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [selectedCrop, setSelectedCrop] = useState(null);
+
+  const [transactionData, setTransactionData] = useState([])
 
   const toggleModal = (cropData) => {
     setIsModalOpen(!isModalOpen);
@@ -48,13 +51,77 @@ const FarmerDashboard = () => {
       }
     };
 
+
+    const getAllTransactions = async () => {
+
+      try {
+        
+        if (currentUser && currentUser._id) {
+          const res = await fetch(`/api/transaction/${currentUser._id}/getAllTransactions`)
+
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+
+          const data = await res.json();
+          console.log(data);
+          setTransactionData(data);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+
+    };
+
+
     fetchFarmerData();
+    getAllTransactions();
   }, [currentUser]);
+
+  const onViewDetails = (transaction) => {
+    console.log("Viewing details for transaction: ", transaction);
+    // Here, implement how you would like to handle viewing transaction details
+  };
+
+  const getTransactionColumns = () => [
+    {
+      Header: "Buyer",
+      // accessor: "otherParty.name",
+      accessor: row => row.otherParty.name,
+    },
+    {
+      Header: "Buyer Email",
+      accessor: row => row.otherParty.email,
+    },
+    {
+      Header: "Buying Date",
+      accessor: "createdAt",
+    },
+    {
+      Header: "Stock Bought KG",
+      accessor: "quantityPurchased",
+    },
+    {
+      Header: "Stock Remain In Market",
+      accessor: row => row.cropSaleListing.quantity,
+    },
+    {
+      Header: "Amount",
+      accessor: "totalCost",
+    },
+    {
+      Header: "Action",
+      Cell: ({ cell }) => (
+        <button onClick={() => onViewDetails(cell.row.original)}>View</button>
+      ),
+    },
+  ];
 
   return (
     <div className="bg-white">
       {/* <img src="./assets/chole.jpg" alt="" /> */}
-      <div className=" h-[100dvh]  font-Grifter pt-48 max-w-7xl mx-auto items-center">
+      <div className=" min-h-[100dvh]  font-Grifter pt-48 max-w-7xl mx-auto items-center">
         <div className="flex-col flex items-center justify-center px-4">
           <h1 className="text-xs sm:text-sm lg:text-[50px] font-normal">
             Sell directly to warehouses or retailers
@@ -62,14 +129,17 @@ const FarmerDashboard = () => {
           <div className="text-xs sm:text-sm lg:text-[30px] font-normal pt-8 text-[#9A9A9A]">
             <h2>Sell at the most favorable price</h2>
           </div>
-          <div className=" font-Poppins grid grid-cols-4 gap-6 my-24 w-full">
+          <div className=" font-Poppins grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-24 w-full">
             {farmerCrops.map((item, index) => (
               <div key={index} className="border rounded-md">
                 {/* Find the image from Imgarray that matches the cropName */}
                 <div className=" relative">
-                  <span className=" font-Grifter absolute uppercase text-white text-5xl top-[35%] left-[22%] ">
+                <div className=" w-full flex justify-center items-center">
+
+                  <span className=" font-Grifter absolute uppercase text-white text-5xl  top-[35%] ">
                     {item.cropName}
                   </span>
+                </div>
                   <img
                     className=" h-36 w-full rounded-md "
                     src={
@@ -97,6 +167,13 @@ const FarmerDashboard = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className=" flex justify-center py-8">
+          <h1 className=" text-3xl">{transactionData ? "Your Sales" : null}</h1>
+        </div>
+        <div className=" pb-20">
+
+        <Table columns={getTransactionColumns()} data={transactionData} />
         </div>
       </div>
 

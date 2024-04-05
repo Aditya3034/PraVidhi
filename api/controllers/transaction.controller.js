@@ -100,3 +100,59 @@ console.log(session);
     session.endSession();
   }
 };
+
+
+export const getAllTransactions = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Fetch transactions where 'userId' is either the buyer or seller
+    const transactions = await Transaction.find({
+      $or: [{ buyer: userId }, { seller: userId }]
+    });
+
+    // Enrich each transaction with details of the other party
+    const enrichedTransactions = await Promise.all(transactions.map(async (transaction) => {
+      const isBuyer = transaction.buyer.toString() === userId;
+      const otherUserId = isBuyer ? transaction.seller : transaction.buyer;
+
+      // Attempt to fetch the other party as a Farmer
+      let otherParty = await Farmer.findById(otherUserId).lean();
+
+      // If not found as a Farmer, attempt to fetch as a Warehouse Owner
+      if (!otherParty) {
+        otherParty = await Warehouse.findById(otherUserId).lean();
+      }
+
+      const cropSaleListing = await CropSaleListing.findById(transaction.cropSaleListing).lean();
+
+      const otherPartyRole = otherParty.usertype;
+
+      return {
+        ...transaction.toObject(), 
+        otherParty: {
+          id: otherParty._id,
+          name: otherParty.name || otherParty.username, 
+          role: otherPartyRole,
+          email : otherParty.email, 
+
+        },
+        cropSaleListing: {
+          cropName: cropSaleListing.cropName,
+          cropType: cropSaleListing.cropType,
+          quantity: cropSaleListing.quantity,
+          pricePerKg: cropSaleListing.pricePerKg,
+          totalPrice: cropSaleListing.totalPrice,
+          availableInDays: cropSaleListing.availableInDays,
+          location: cropSaleListing.location,
+          status: cropSaleListing.status,
+        }
+      };
+    }));
+
+    // console.log(enrichedTransactions, "_____________________________________________");
+    res.status(200).json(enrichedTransactions);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve transaction details', error: error.message });
+  }
+};

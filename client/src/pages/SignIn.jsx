@@ -43,9 +43,9 @@ export default function SignIn() {
     }
   };
   return (
-    <div className="pt-24 bg-white   mx-auto">
-      <div className=" grid grid-cols-2">
-        <div className=" w-full items-center flex justify-center flex-col">
+    <div className="pt-24 bg-white min-w-7xl  mx-auto">
+      <div className=" min-h-[100dvh]  ">
+        <div className=" items-center flex justify-center flex-col">
           <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
@@ -79,7 +79,7 @@ export default function SignIn() {
           </div>
           {error && <p className="text-red-500 mt-5">{error}</p>}
         </div>
-        <div className=" bg-gradient-to-r from-[#4c42f0] to-[#3e5ff9]  -z-0">
+        {/* <div className=" bg-gradient-to-r from-[#4c42f0] to-[#3e5ff9]  -z-0">
           <div className="  relative">
           <div className=" w-[80%] bg-white bg-opacity-40 flex flex-col gap-4 pt-8 text-white text-4xl  border border-white rounded-3xl  absolute top-[25%] left-[10%] ">
             <h1>Your Gateway to Smart Farming Solutions</h1>
@@ -95,7 +95,7 @@ export default function SignIn() {
             className=" w-full"
           />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

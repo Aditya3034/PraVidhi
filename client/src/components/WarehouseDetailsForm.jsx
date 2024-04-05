@@ -86,8 +86,8 @@ const WarehouseDetailsForm = ({ isOpen, onClose, onSubmit,  data }) => {
   
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="relative bg-white p-10 w-3/4 rounded-lg flex flex-col items-center">
+    <div className=" font-Poppins fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="relative bg-white p-10 w-1/2 rounded-lg flex flex-col items-center">
         <button onClick={onClose} className="absolute right-3 top-2">
           <IoCloseSharp className="text-2xl" />
         </button>
