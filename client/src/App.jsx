@@ -19,6 +19,9 @@ import SellCrops from "./pages/SellCrops";
 import FarmerDashboard from "./pages/FarmerDashboard";
 import WarehouseHomePage from "./pages/WarehouseHomePage";
 import WarehouseRestockPage from "./pages/WarehouseRestockPage";
+import RetailorSignUp from "./pages/RetailorSignUp";
+import RetailorSignIn from "./pages/RetailorSignIn";
+import ReatailorHomePage from "./pages/ReatailorHomePage";
 
 
 const App = () => {
@@ -31,6 +34,10 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/warehose-signUp" element={<WareHouseSignUp />} />
         <Route path="/warehose-signIn" element={<WareHouseSignIn />} />
+        <Route path="/retailor-signUp" element={<RetailorSignUp />} />
+        <Route path="/retailor-signIn" element={<RetailorSignIn />} />
+
+
         
         <Route path="/about" element={<About />} />
         <Route path='/search' element={<Search />} />
@@ -43,8 +50,14 @@ const App = () => {
           <Route path="/farmer-inventory" element={ <FarmerInventory/>}/> 
           <Route path="/farmer-dashboard/:id" element={ <FarmerDashboard/>} />
           <Route path="/sell-crops" element={ <SellCrops />} />
+          
+          
           <Route path="/warehouse-homepage/:id" element={ <WarehouseHomePage/>}/>
           <Route path="/warehouse-restock-page" element={ <WarehouseRestockPage/>}/>
+
+
+          <Route path="/retailor-homepage/:id" element={ <ReatailorHomePage/>}/>
+        
         </Route>
       </Routes>
     </BrowserRouter>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoCloseSharp } from "react-icons/io5";
 
-const FarmerCropSellModal = ({ isModalOpen, toggleModal, selectedCrop }) => {
+const FarmerCropSellModal = ({ isModalOpen, toggleModal, selectedCrop,onRefresh  }) => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [sellDetails, setSellDetails] = useState({
@@ -57,6 +57,7 @@ const FarmerCropSellModal = ({ isModalOpen, toggleModal, selectedCrop }) => {
       const result = await res.json();
       console.log(result);
       toggleModal(); // Close the modal after successful submission
+      onRefresh();
     } catch (error) {
       console.error(error.message);
     }

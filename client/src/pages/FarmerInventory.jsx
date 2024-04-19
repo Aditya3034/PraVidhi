@@ -57,7 +57,7 @@ const FarmerInventory = () => {
              const data = await res.json();
 
              if (data){
-                navigate("/sell-crops")
+                navigate(`/farmer-dashboard/${currentUser._id}`)
                 console.log(data);
              }
 

@@ -3,6 +3,7 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import Warehouse from "../models/warehouse.model.js";
+import Retailor from "../models/retailor.models.js";
 
 // FRMER AUTH ROUTES ---------------------------------------------------------------------
 
@@ -98,8 +99,70 @@ export const signout = async (req, res, next) => {
 
 // FRMER AUTH ROUTES END ------------------------------------------------------------------
 
-// WAREHOUSES AUTH ROUTES START -----------------------------------------------------------
 
+// Retailors AUTH ROUTES START -----------------------------------------------------------
+export const retailorsSignUp = async (req, res) => {
+  const { name, address, city, state, email, password, governmentId } =
+    req.body;
+
+  try {
+    // Check if the user already exists
+    // const existingWarehouse = await Warehouse.findOne({email : email });
+    // if (existingWarehouse) {
+    //   return res.status(400).json({ message: "Email already in use." });
+    // }
+
+    // Hash the password
+    const hashedPassword = await bcryptjs.hash(password, 12);
+    // console.log(hashedPassword.toString());
+    // Create a new warehouse user
+    const newWarehouse = new Retailor({
+      name,
+      address,
+      city,
+      state,
+      email,
+      password: hashedPassword,
+      governmentId,
+    });
+    console.log(newWarehouse);
+
+    await newWarehouse.save();
+    res.status(201).json({ message: "Warehouse registered successfully!" });
+  } catch (error) {
+    res.status(500).json({ message: "Error registering warehouse." });
+  }
+};
+
+
+export const retailorSignIn = async (req, res) => {
+  const {email , password} = req.body;
+
+  try {
+    const validUser = await Retailor.findOne({ email });
+// console.log(validUser.password);
+    if (!validUser) return next(errorHandler(404, "USer not found"));
+
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
+// console.log(validPassword)
+    if (!validPassword) return next(errorHandler(401, "Wrong Credentials"));
+
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+
+    const { password: pass, ...rest } = validUser._doc;
+
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(rest);
+  } catch (error) {
+    
+  }
+}
+// WAREHOUSES AUTH ROUTES END -------------------------------------------------------------
+
+
+// WAREHOUSES AUTH ROUTES START -----------------------------------------------------------
 export const warehousesignup = async (req, res) => {
   const { name, address, city, state, email, password, governmentId } =
     req.body;
@@ -158,4 +221,4 @@ export const warehousesignin = async (req, res) => {
     
   }
 }
-// WAREHOUSES AUTH ROUTES END -------------------------------------------------------------
+// Retailors AUTH ROUTES END -------------------------------------------------------------

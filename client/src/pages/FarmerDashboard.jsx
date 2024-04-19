@@ -28,6 +28,12 @@ const FarmerDashboard = () => {
 
   const [transactionData, setTransactionData] = useState([])
 
+  const [refreshData, setRefreshData] = useState(false);
+
+  const refreshFarmerData = () => {
+    setRefreshData((prev) => !prev); 
+  };
+
   const toggleModal = (cropData) => {
     setIsModalOpen(!isModalOpen);
     setSelectedCrop(cropData);
@@ -77,7 +83,7 @@ const FarmerDashboard = () => {
 
     fetchFarmerData();
     getAllTransactions();
-  }, [currentUser]);
+  }, [currentUser,refreshData]);
 
   const onViewDetails = (transaction) => {
     console.log("Viewing details for transaction: ", transaction);
@@ -181,6 +187,7 @@ const FarmerDashboard = () => {
         isModalOpen={isModalOpen}
         toggleModal={toggleModal}
         selectedCrop={selectedCrop ? selectedCrop : ""}
+        onRefresh={refreshFarmerData}
       />
     </div>
   );

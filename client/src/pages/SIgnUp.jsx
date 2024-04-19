@@ -91,7 +91,7 @@ const SignUp = () => {
 <div></div>
         <button disabled={loding} className=' bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loding? "Loding..." : "Sign up"}</button>
       
-        <OAuth/>
+        {/* <OAuth/> */}
 
       </form>
 

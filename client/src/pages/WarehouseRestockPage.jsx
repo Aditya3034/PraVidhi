@@ -116,7 +116,7 @@ const WarehouseRestockPage = () => {
               <div className="absolute right-0 top-0 rounded-bl-md rounded-tr-md h-8 w-8 bg-[#00FFA34D]"></div>
               <div className="flex gap-6 h-16">
                 <img
-                  src={item.imageUrl}
+                  src={item.farmer.avatar}
                   alt=""
                   className="h-16 w-16 rounded-full"
                 />

@@ -16,7 +16,7 @@ const WareHouseSignUp = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault(); // Prevent default form submission behavior
+  e.preventDefault(); 
   try {
     console.log("INLOOP");
 

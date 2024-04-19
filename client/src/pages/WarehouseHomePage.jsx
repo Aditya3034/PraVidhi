@@ -121,12 +121,28 @@ const WarehouseHomePage = () => {
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
               "rgba(54, 162, 235, 0.2)",
-              // Add more colors as needed
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(199, 199, 199, 0.2)", // Light Grey
+              "rgba(83, 102, 255, 0.2)", // Soft Blue
+              "rgba(255, 129, 102, 0.2)", // Soft Red
+              "rgba(46, 204, 113, 0.2)", // Emerald
+              // Add more as needed
             ],
             borderColor: [
               "rgba(255, 99, 132, 1)",
               "rgba(54, 162, 235, 1)",
-              // Add more colors as needed
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)",
+              "rgba(199, 199, 199, 1)", // Grey
+              "rgba(83, 102, 255, 1)", // Blue
+              "rgba(255, 129, 102, 1)", // Red
+              "rgba(46, 204, 113, 1)", // Green
+              // Add more as needed
             ],
             borderWidth: 1,
           },
@@ -189,9 +205,21 @@ const WarehouseHomePage = () => {
               (detail) => detail.cropQuantity
             ),
             backgroundColor: [
-              "#FF6384",
-              "#36A2EB",
-              // Add more colors as needed
+              "#FF6384", // Radish Red
+              "#36A2EB", // Sky Blue
+              "#FFCE56", // Sunny Yellow
+              "#4BC0C0", // Seafoam Green
+              "#9966FF", // Lavender Purple
+              "#FF9F40", // Tangerine Orange
+              "#C9CBCF", // Metallic Silver
+              "#FFCD56", // Canary Yellow
+              "#36A2EB", // Cerulean
+              "#FF6384", // Watermelon Pink
+              "#49A9EA", // Picton Blue
+              "#CC65FE", // Electric Violet
+              "#FFCE56", // Pastel Yellow
+              "#FF6384", // Soft Red
+              "#36A2EB", // Light Blue
             ],
             hoverOffset: 4,
           },
