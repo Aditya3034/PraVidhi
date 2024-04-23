@@ -3,7 +3,6 @@ import Farmer from "../models/farmer.models.js";
 import { errorHandler } from "../utils/error.js";
 import CropSaleListing from "../models/cropSaleListingSchema.js";
 
-
 export const test = (req, res) => {
   res.json({
     message: "HELLO WORLD",
@@ -79,7 +78,6 @@ export const getUser = async (req, res, next) => {
   }
 };
 
-
 export const updateCropInfo = async (req, res, next) => {
   try {
     const userId = req.params.id;
@@ -92,9 +90,11 @@ export const updateCropInfo = async (req, res, next) => {
     }
 
     // Assuming newCropInfo is an array of { cropName, cropQty }
-    newCropInfo.forEach(newCrop => {
-      const existingCropIndex = farmer.cropInfo.findIndex(c => c.cropName === newCrop.cropName);
-      
+    newCropInfo.forEach((newCrop) => {
+      const existingCropIndex = farmer.cropInfo.findIndex(
+        (c) => c.cropName === newCrop.cropName
+      );
+
       if (existingCropIndex > -1) {
         // Update quantity if crop already exists
         farmer.cropInfo[existingCropIndex].cropQty += newCrop.cropQty;
@@ -107,17 +107,14 @@ export const updateCropInfo = async (req, res, next) => {
     await farmer.save(); // Save the updated farmer document
 
     res.status(200).json(farmer);
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-
 export const getCropInfo = async (req, res, next) => {
   try {
-
     const userId = req.params.id;
     console.log(userId);
     const farmer = await Farmer.findById(userId);
@@ -125,32 +122,35 @@ export const getCropInfo = async (req, res, next) => {
     if (!farmer) {
       return res.status(404).json({ message: "Farmer not found" });
     }
-    
+
     const cropInfo = farmer.cropInfo;
 
     return res.status(200).json(cropInfo);
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Data can't be fetched" });
-
   }
 };
 
-
 // Method to handle sell request
 export const createSellRequest = async (req, res) => {
-  
   const farmerId = req.params.id;
 
   console.log(farmerId);
 
   // Extract details from request body
-  const { cropName,cropType, quantity, pricePerKg, availableInDays, location, totalPrice} = req.body;
+  const {
+    cropName,
+    cropType,
+    quantity,
+    pricePerKg,
+    availableInDays,
+    location,
+    totalPrice,
+  } = req.body;
   console.log(req.body);
 
   try {
-
     // Create new CropSaleListing document
     const newListing = await CropSaleListing.create({
       farmer: farmerId,
@@ -163,14 +163,15 @@ export const createSellRequest = async (req, res) => {
       location,
     });
 
-
     // console.log(newListing);
 
     // Update farmer's crop quantity
     const farmer = await Farmer.findById(farmerId);
     // console.log(farmer, "FARMER____________________________________");
-    const cropIndex = farmer.cropInfo.findIndex(crop => crop.cropName === cropName);
-// console.log(cropIndex, "CROPDATA____________________________________");
+    const cropIndex = farmer.cropInfo.findIndex(
+      (crop) => crop.cropName === cropName
+    );
+    // console.log(cropIndex, "CROPDATA____________________________________");
     if (cropIndex !== -1) {
       // If crop exists, deduct the quantity
       farmer.cropInfo[cropIndex].cropQty -= quantity;
@@ -181,10 +182,57 @@ export const createSellRequest = async (req, res) => {
     }
 
     // Successfully processed sell request
-    res.status(201).json({ message: "Sell request processed successfully", listing: newListing });
-
+    res
+      .status(201)
+      .json({
+        message: "Sell request processed successfully",
+        listing: newListing,
+      });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Failed to process sell request", error: error.toString() });
+    res
+      .status(500)
+      .json({
+        message: "Failed to process sell request",
+        error: error.toString(),
+      });
   }
+};
+import { exec } from "child_process";
+
+export const predictCrop = (req, res) => {
+    const inputData = req.body;
+    const pythonScriptPath = "./Machine_Learning/predict.py"; // Adjust the path if necessary
+    const pythonCommand = `python ${pythonScriptPath}`;
+    console.log(JSON.stringify(inputData));
+    const pythonProcess = exec(pythonCommand, { maxBuffer: 1024 * 1000 });
+
+    let outputData = '';
+
+    pythonProcess.stdin.write(JSON.stringify(inputData));
+    pythonProcess.stdin.end();
+
+    pythonProcess.stdout.on("data", (data) => {
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        console.log("this is the data",data);
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+        outputData += data.toString();
+    });
+
+    pythonProcess.stdout.on("end", () => {
+        try {
+            const predictedCrops = JSON.parse(outputData);
+            console.log("Predicted Crops:", predictedCrops);
+            res.json({ prediction: predictedCrops[0] });
+        } catch (error) {
+            console.error("Error parsing JSON from Python:", error);
+            res.status(500).json({ error: "Error parsing prediction data" });
+        }
+    });
+
+    pythonProcess.stderr.on("data", (data) => {
+        console.error("Python error:", data.toString());
+        res.status(500).json({ error: "Error running prediction script" });
+    });
 };
