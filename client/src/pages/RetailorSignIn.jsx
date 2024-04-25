@@ -5,43 +5,46 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signInFailure, signInSuccess } from '../redux/user/userSlice';
 
 const RetailorSignIn = () => {
-    const [formData, setFormData] = useState({});
-    const { loading, error } = useSelector((state) => state.user);
-    const navigate = useNavigate();
+  const [formData, setFormData] = useState({});
+  const { loading, error } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
-    const handleChange = (e) => {
-        setFormData({
-          ...formData,
-          [e.target.id]: e.target.value,
-        });
-      };
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-        //   dispatch(signInStart());
-          const res = await fetch('/api/auth/retailor-signIn', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          });
-          const data = await res.json();
-          console.log(data);
-          if (data.success === false) {
-            dispatch(signInFailure(data.message));
-            return;
-          }
-          dispatch(signInSuccess(data));
-          navigate(`/retailor-homepage/${data._id}`);
-        } catch (error) {
-        //   dispatch(signInFailure(error.message));
-        console.log(error.message);
-        }
-      };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      //   dispatch(signInStart());
+      console.log(formData);
+
+      const res = await fetch('/api/auth/retailor-signIn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log(res);
+      const data = await res.json();
+      console.log(data);
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      navigate(`/retailor-homepage/${data._id}`);
+    } catch (error) {
+      //   dispatch(signInFailure(error.message));
+      console.log(error.message);
+    }
+  };
   return (
     <div className='pt-24 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-7'>Sign In</h1>

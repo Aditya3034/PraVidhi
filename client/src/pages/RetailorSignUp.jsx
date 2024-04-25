@@ -20,7 +20,7 @@ const RetailorSignUp = () => {
     e.preventDefault(); 
     try {
       console.log("INLOOP");
-  
+      console.log(formData);
       const res = await fetch("/api/auth/retailor-signUp", {
         method: "POST",
         headers: {
@@ -112,7 +112,7 @@ const RetailorSignUp = () => {
         
         <p>Have an Account?</p>
       
-        <Link to={"/reatilor-signIn"} className=' text-blue-500'>
+        <Link to={"/retailor-signIn"} className=' text-blue-500'>
           Sign in
         </Link>
   

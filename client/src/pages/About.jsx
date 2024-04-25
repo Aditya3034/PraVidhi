@@ -3,7 +3,7 @@ import React from 'react'
 const About = () => {
   return (
     <div className='py-20 px-4 max-w-6xl mx-auto font-Higuen'>
-      <h1 className='text-3xl font-bold mb-4 text-slate-700'>About <span className="text-slate-500">Vasudhā</span><span className=" text-slate-700">Estate</span></h1>
+      <h1 className='text-3xl font-bold m-7 text-slate-700'>About <span className="text-slate-500">Vasudhā</span><span className=" text-slate-700">Estate</span></h1>
       <p className='mb-4 text-slate-700'>Discover a world of possibilities with VasudhāEstate, where every
           listing is a key to exceptional living. We specialize in unlocking the
           door to your dream home or investment, offering seamless real estate

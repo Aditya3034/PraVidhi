@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import SuccessModal from "../components/SuccessModal";
 
 const CropPridiction = () => {
   // Define initial form state
@@ -15,6 +16,8 @@ const CropPridiction = () => {
 
   // State to hold form values
   const [formValues, setFormValues] = useState(initialFormState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cropName, setCropName] = useState("");
 
   // Handle change in form inputs
   const handleChange = (e) => {
@@ -22,6 +25,11 @@ const CropPridiction = () => {
     setFormValues({ ...formValues, [name]: value });
   };
 
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+ 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +46,10 @@ const CropPridiction = () => {
 
       const data = await res.json();
       console.log(data);
+      if(data){
+        setIsModalOpen(true);
+        setCropName(data.prediction[0])
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -106,6 +118,8 @@ const CropPridiction = () => {
           </form>
         </div>
       </div>
+      <SuccessModal isOpen={isModalOpen} onClose={toggleModal} cropName={cropName} />
+
     </div>
   );
 };

@@ -74,9 +74,9 @@ const Header = () => {
               </li>
             )}
           </Link>
+        <SigninModal isOpen={isModalOpen} onClose={toggleModal} />
 
         </ul>
-        <SigninModal isOpen={isModalOpen} onClose={toggleModal} />
       </div>
     </header>
   );

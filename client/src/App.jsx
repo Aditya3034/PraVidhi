@@ -55,9 +55,12 @@ const App = () => {
           <Route path="/warehouse-homepage/:id" element={ <WarehouseHomePage/>}/>
           <Route path="/warehouse-restock-page" element={ <WarehouseRestockPage/>}/>
 
-
+                {/* Retailer part below */}
           <Route path="/retailor-homepage/:id" element={ <ReatailorHomePage/>}/>
-        
+          <Route path="/retailor-signUp" element={ <RetailorSignUp/>}/>
+          <Route path="/retailor-signIn" element={ <RetailorSignIn/>}/>
+          <Route path="/retailor-homepage/:id" element={ <ReatailorHomePage/>}/>
+
         </Route>
       </Routes>
     </BrowserRouter>

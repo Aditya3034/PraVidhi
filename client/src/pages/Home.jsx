@@ -78,7 +78,7 @@ const Home = () => {
           <h2>Smart Solutions for Modern Farming Challenges</h2>
         </div>
         <button
-          className="bg-[#3770FF] w-48 sm:w-[279px] text-white p-2 sm:p-4 mt-16 rounded-full"
+          className="bg-[#3770FF] w-48 sm:w-[279px] text-white p-2 sm:p-4  rounded-full"
           onClick={toggleModal}
         >
           Join Now
@@ -92,7 +92,7 @@ const Home = () => {
         <h3 className=" lg:text-[20px] text-[#9A9A9A]">Beyond the Ordinary</h3>
 
         <div className=" grid grid-cols-4 gap-6 my-24">
-          <Link to="farmer-dashboard">
+          {/* <Link to="farmer-dashboard"> */}
             <div className=" bg-[#eeeeee] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4 ">
               <div>
                 <svg
@@ -110,7 +110,7 @@ const Home = () => {
               </div>
               <span className=" w-2/3 text-center">Personalized Dashboard</span>
             </div>
-          </Link>
+          {/* </Link> */}
           <div className=" bg-[#eeeeee] rounded-[20px] flex flex-col items-center justify-center h-56 gap-4">
             <div>
               <svg
