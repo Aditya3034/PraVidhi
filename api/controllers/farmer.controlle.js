@@ -198,25 +198,42 @@ export const createSellRequest = async (req, res) => {
       });
   }
 };
+
+
+
 import { exec } from "child_process";
 
 export const predictCrop = (req, res) => {
+    // Incoming data from the request
     const inputData = req.body;
+
+    // Convert the object to an array of values in the correct order and type
+    const inputArray = [
+        parseFloat(inputData.N),
+        parseFloat(inputData.P),
+        parseFloat(inputData.K),
+        parseFloat(inputData.temperature),
+        parseFloat(inputData.humidity),
+        parseFloat(inputData.ph),
+        parseFloat(inputData.rainfall)
+    ];
+
+    // Define the path to the Python script
     const pythonScriptPath = "./Machine_Learning/predict.py"; // Adjust the path if necessary
     const pythonCommand = `python ${pythonScriptPath}`;
-    console.log(JSON.stringify(inputData));
+
+    // Start the child process to execute the Python script
     const pythonProcess = exec(pythonCommand, { maxBuffer: 1024 * 1000 });
 
     let outputData = '';
 
-    pythonProcess.stdin.write(JSON.stringify(inputData));
+    // Send the array of values to the Python script via stdin
+    pythonProcess.stdin.write(JSON.stringify(inputArray));
     pythonProcess.stdin.end();
 
+    // Handle stdout data from the Python script
     pythonProcess.stdout.on("data", (data) => {
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        console.log("this is the data",data);
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
+        console.log("Output from Python script:", data.toString());
         outputData += data.toString();
     });
 
@@ -224,13 +241,14 @@ export const predictCrop = (req, res) => {
         try {
             const predictedCrops = JSON.parse(outputData);
             console.log("Predicted Crops:", predictedCrops);
-            res.json({ prediction: predictedCrops[0] });
+            res.json({ prediction: predictedCrops });
         } catch (error) {
             console.error("Error parsing JSON from Python:", error);
             res.status(500).json({ error: "Error parsing prediction data" });
         }
     });
 
+    // Handle stderr from the Python script (if any errors occur)
     pythonProcess.stderr.on("data", (data) => {
         console.error("Python error:", data.toString());
         res.status(500).json({ error: "Error running prediction script" });
