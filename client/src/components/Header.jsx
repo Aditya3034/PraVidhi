@@ -25,9 +25,9 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const targetRoutes = ["/about", "/retailor-signUp","/warehose-signUp"];
+    const targetRoutes = [ "/retailor-signUp","/warehose-signUp"];
     if (targetRoutes.includes(location.pathname)) {
-      toggleModal();
+      // toggleModal();
     }
   }, [location]); 
   
@@ -74,9 +74,9 @@ const Header = () => {
               </li>
             )}
           </Link>
-        <SigninModal isOpen={isModalOpen} onClose={toggleModal} />
 
         </ul>
+        <SigninModal isOpen={isModalOpen} onClose={toggleModal} />
       </div>
     </header>
   );
