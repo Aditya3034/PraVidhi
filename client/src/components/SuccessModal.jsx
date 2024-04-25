@@ -10,7 +10,7 @@ const SuccessModal = ({ isOpen, onClose, cropName }) => {
           <div className="text-center">
             <p className={`text-3xl font-bold ${cropName ? 'text-green-500' : 'text-red-500'}`}>Predictions!</p>
             {cropName ? (
-              <p className="text-lg mb-6">You've successfully planted <span className="font-semibold">{cropName}</span>.</p>
+              <p className="text-lg mb-6">You can cultivate <span className="font-semibold">{cropName}</span> based on the conditions provided.</p>
             ) : (
               <p className="text-lg mb-6">Sorry, no crops are predicted for the given conditions.</p>
             )}
