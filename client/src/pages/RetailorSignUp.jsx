@@ -39,7 +39,8 @@ const RetailorSignUp = () => {
   
     return (
       <>
-        <div className="pt-48 max-w-lg mx-auto">
+        <div className=" bg-white">
+        <div className="py-48 max-w-lg mx-auto ">
           <h1 className="text-3xl text-center font-semibold my-7">
           Retailor Signup
           </h1>
@@ -119,6 +120,7 @@ const RetailorSignUp = () => {
   
       
       </div>
+        </div>
         </div>
       </>
     );

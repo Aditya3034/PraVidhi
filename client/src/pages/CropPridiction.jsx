@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SuccessModal from "../components/SuccessModal";
 
+import { BsArrowClockwise } from "react-icons/bs";
+
+
 const CropPridiction = () => {
   // Define initial form state
   const initialFormState = {
@@ -18,6 +21,7 @@ const CropPridiction = () => {
   const [formValues, setFormValues] = useState(initialFormState);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cropName, setCropName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Handle change in form inputs
   const handleChange = (e) => {
@@ -34,8 +38,10 @@ const CropPridiction = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formValues);
+    
 
     try {
+      
       const res = await fetch("/api/farmer/predict", {
         method: "POST",
         headers: {
@@ -75,8 +81,10 @@ const CropPridiction = () => {
   ];
   return (
     <div className=" bg-white">
+
       <div className=" h-[100dvh] font-Grifter pt-48 max-w-7xl  mx-auto items-center  ">
         <div className="  flex-col flex items-center justify-center px-4">
+    {/* <BsArrowClockwise className={loading ? "animate-spin text-xl text-[#000000]" : ""} /> */}
           <h1 className="text-xs sm:text-sm lg:text-[50px] font-normal">
             Crop Recommendation
           </h1>

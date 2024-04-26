@@ -6,21 +6,26 @@ export default {
   ],
   theme: {
     extend: {
+      animation: {
+        spin: 'spin 1s linear infinite', // Name, duration, easing, iteration
+      },
+      keyframes: {
+        spin: {
+          'from': { transform: 'rotate(0deg)' },
+          'to': { transform: 'rotate(360deg)' },
+        },
+      },
       height: {
         'dynamic': 'calc(50vh + 1rem)', // Example of a custom height utility
       },
-    },
-    fontFamily: {
-      // Higuen:"Higuen",
-      // Norwester:'Norwester',
-      // Rubik:['sans-serif'],
-      // Tilt_Prism:['cursive'],
-      // Outfit:['sans-serif'],
-      Raleway : ["Raleway", "sans-serif"],
-      Grifter : "Grifter",
-      Poppins:["Poppins", 'sans-serif'],
+      fontFamily: {
+        Raleway : ["Raleway", "sans-serif"],
+        Grifter : ["Grifter"], // Ensure the correct format for font families
+        Poppins:["Poppins", 'sans-serif'],
+      },
     },
   },
+  // Optionally enable plugins by uncommenting and installing necessary packages
   // plugins: [
   //   require('@tailwindcss/line-clamp'),
   // ],

@@ -43,11 +43,11 @@ export default function SignIn() {
     }
   };
   return (
-    <div className="pt-24 bg-white min-w-7xl  mx-auto">
-      <div className=" min-h-[100dvh]  ">
-        <div className=" items-center flex justify-center flex-col">
+    <div className="pt-24 bg-white ">
+      <div className=" min-h-screen max-w-5xl  mx-auto ">
+        
           <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex max-w-xl mx-auto  flex-col gap-4">
             <input
               type="email"
               placeholder="email"
@@ -70,15 +70,15 @@ export default function SignIn() {
               {loading ? "Loading..." : "Sign In"}
             </button>
             <OAuth />
-          </form>
-          <div className="flex gap-2 mt-5">
+          <div className="flex gap-2 mt-5 justify-center">
             <p>Dont have an account?</p>
             <Link to={"/sign-up"}>
               <span className="text-blue-700">Sign up</span>
             </Link>
           </div>
           {error && <p className="text-red-500 mt-5">{error}</p>}
-        </div>
+          </form>
+        
         {/* <div className=" bg-gradient-to-r from-[#4c42f0] to-[#3e5ff9]  -z-0">
           <div className="  relative">
           <div className=" w-[80%] bg-white bg-opacity-40 flex flex-col gap-4 pt-8 text-white text-4xl  border border-white rounded-3xl  absolute top-[25%] left-[10%] ">
